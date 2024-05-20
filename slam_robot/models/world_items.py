@@ -1,5 +1,5 @@
 import math
-from typing import List, Any
+from typing import List, Any, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,13 +21,14 @@ class Circle(WorldItem):
         self.center = center
         self.radius = radius
 
-    def get_collision(self, origin: Point, angle: float):
+    def get_collision(self, origin: Point, angle: float) -> Optional[List[Point]]:
         """
         The circle is defined by its center and its radius.
         The straight line (the observation) is given by its origin and an angle.
         The intersection, if it exists, is a point that is a part of the circle and also of the straight line.
 
         >>> fix, ax = plt.subplots()
+        >>> plt.rcParams["figure.figsize"] = (5, 5)
         >>> center = Point(10, 20)
         >>> radius = 5
         >>> circle = Circle(center, radius)
@@ -37,16 +38,58 @@ class Circle(WorldItem):
         >>> line_1 = LineByPointAndAngle(point, angle)
         >>> line_1.line_by_two_points.draw(ax)
         >>> intersection_1, intersection_2 = circle.get_collision(point, angle)
+        >>> assert isinstance(intersection_1, Point)
+        >>> assert isinstance(intersection_2, Point)
         >>> intersection_1
 
         >>> intersection_2
 
         >>> intersection_1.distance(point)
+        >>> plt.scatter([intersection_1.x], [intersection_1.y])
 
         >>> intersection_2.distance(point)
+        >>> plt.scatter([intersection_2.x], [intersection_2.y])
 
         >>> plt.xlabel("X")
         >>> plt.ylabel("Y")
+        >>> plt.xlim(0, 100)
+        >>> plt.ylim(0, 100)
+        >>> plt.title("Plot")
+        >>> plt.show()
+
+
+        >>> fix, ax = plt.subplots()
+        >>> plt.rcParams["figure.figsize"] = (5, 5)
+        >>> center2 = Point(10, 20)
+        >>> radius2 = 5
+        >>> circle2 = Circle(center2, radius2)
+        >>> circle2.draw(ax)
+        >>> point2 = Point(5, 40)
+        >>> angle2 = -math.pi / 2.5
+
+        >>> line2_1 = LineByPointAndAngle(point2, angle2)
+        >>> line2_1.line_by_two_points.draw(ax)
+        >>> collision = circle.get_collision(point2, angle2)
+        >>> assert collision is not None
+        >>> collision
+
+        >>> intersection2_1, intersection2_2 = collision
+        >>> assert isinstance(intersection2_1, Point)
+        >>> assert isinstance(intersection2_2, Point)
+        >>> intersection2_1
+
+        >>> intersection2_2
+
+        >>> intersection2_1.distance(point2)
+        >>> plt.scatter([intersection2_1.x], [intersection2_1.y])
+
+        >>> intersection2_2.distance(point2)
+        >>> plt.scatter([intersection2_2.x], [intersection2_2.y])
+
+        >>> plt.xlabel("X")
+        >>> plt.ylabel("Y")
+        >>> plt.xlim(0, 100)
+        >>> plt.ylim(0, 100)
         >>> plt.title("Plot")
         >>> plt.show()
 
@@ -56,15 +99,14 @@ class Circle(WorldItem):
         :return:
         """
         line = LineByPointAndAngle(origin, angle).line_by_two_points
+        print(f"origin: {origin}, angle: {angle}")
+        print(f"line point_1: {line.point_1}, line point_2: {line.point_2}")
         cartesian_line = line.cartesian_line
+        print(f"line: {line.cartesian_line.a}, {line.cartesian_line.b}, {line.cartesian_line.c}")
 
         distance = (math.fabs(cartesian_line.a * self.center.x + cartesian_line.b * self.center.y + cartesian_line.c)
                     / math.sqrt(cartesian_line.a ** 2 + cartesian_line.b ** 2))
-        if distance > self.radius:
-            return []
-        elif np.isclose(distance, self.radius):
-            # TODO compute the point coordinates
-            raise ValueError("Very unlikely")
+        print(f"distance: {distance}, radius: {self.radius}")
         # Translate the center on the origin
         centered_point_1 = line.point_1 - self.center
         centered_point_2 = line.point_2 - self.center
@@ -77,7 +119,9 @@ class Circle(WorldItem):
         discriminant = self.radius ** 2 * d_r_squared - determinant ** 2
 
         if discriminant < 0:
-            raise ValueError("The line does not intersect the circle.")
+            print("The line does not intersect the circle.")
+            return None
+            # raise ValueError("The line does not intersect the circle.")
 
         root = math.sqrt(discriminant)
 
@@ -181,6 +225,7 @@ class LineByTwoPoints(WorldItem):
 
     @property
     def cartesian_line(self) -> CartesianLine:
+        # TODO check it!!!
         a = self.point_2.y - self.point_1.y
         b = self.point_1.x - self.point_2.x
         c = -self.point_1.y * self.point_2.x + self.point_1.x * self.point_2.y
