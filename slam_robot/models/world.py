@@ -21,7 +21,9 @@ class World:
         line = LineByPointAndAngle(point, angle)
         collisions = []
         for item in self.items:
-            collisions.extend(item.get_collision(point, angle))
+            intersections = item.get_collision(point, angle)
+            if intersections:
+                collisions.extend(intersections)
         collision = None
         for c in collisions:
             # measure_vector = point.from_angle_to_vector(angle)
