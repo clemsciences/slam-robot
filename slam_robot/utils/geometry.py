@@ -54,16 +54,27 @@ class Point:
     def copy(self):
         return Point(self.x, self.y)
 
+    # region array
     def to_array(self) -> np.ndarray:
         return np.array([self.x, self.y])
 
     @staticmethod
     def from_array(point: Union[np.ndarray]):
         return Point(point[0], point[1])
+    # endregion
 
+    # region tuple
     def to_tuple(self):
         return self.x, self.y
 
+    @classmethod
+    def from_tuple(cls, point_tuple):
+        assert len(point_tuple) == 2
+        return cls(point_tuple[0], point_tuple[1])
+
+    # endregion
+
+    # region to vector
     def from_other_point_to_vector(self, other_point):
         vector = Vector()
         vector.set_by_point(other_point - self)
@@ -73,6 +84,33 @@ class Point:
         vector = Vector()
         vector.set_coordinates(1, math.tan(angle))
         return vector
+    # endregion
+
+    # region polar
+    @classmethod
+    def from_polar(cls, angle, distance):
+        return cls(distance*np.cos(angle), distance*np.sin(angle))
+
+    def to_angle(self):
+        if self.x != 0:
+            if self.x > 0 and self.y >= 0:
+                return math.atan(self.y / self.x)
+            elif self.x > 0 > self.y:
+                return math.atan(self.y / self.x) + 2 * math.pi
+            elif self.x < 0:
+                return math.atan(self.y / self.x) + math.pi
+            elif self.x == 0 and self.y > 0:
+                return math.pi / 2
+            elif self.x == 0 and self.y < 0:
+                return 3 * math.pi / 2
+            else:
+                return 0
+        else:
+            return math.pi / 2
+
+    def to_distance(self):
+        return np.sqrt(self.x**2 + self.y**2)
+    # endregion
 
 
 class Vector:
