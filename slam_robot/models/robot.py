@@ -19,7 +19,7 @@ class Robot:
         # endregion
 
         # region sensor
-        self.angle_measures = 60
+        self.angle_measures = 300
         self.measure_max_distance = 1000
         # endregion
 
