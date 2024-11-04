@@ -7,66 +7,23 @@ lines are detected. If an 8 cm line is found, then it is one of the three immobi
 The immobile beacons are used to change basis from the robot's to the table's.
 """
 
-from typing import List, Union
+from typing import List, Union, Tuple
 import math
 import numpy as np
 from collections import defaultdict
 
 __author__ = "Clément Besnier"
 
-
-def polar_to_x(measure: Union[List, np.ndarray]):
-    """
-    x = rho * cos(theta)
-    :param measure: (theta, rho), theta in radian
-    :return:
-    """
-    angle, distance = measure[0], measure[1]
-    return distance*math.cos(angle)
+from slam_robot.utils.geometry import Point
 
 
-def polar_to_y(measure: Union[List, np.ndarray]):
-    """
-    y = rho * sin(theta)
-    :param measure: (theta, rho), theta in radian
-    :return:
-    """
-    angle, distance = measure[0], measure[1]
-    return distance*math.sin(angle)
-
-
-def cartesian_to_polar(cartesian):
-    """
-
-    :param cartesian: (x, y)
-    :return: (theta, rho), theta in radian
-    """
-    x, y = cartesian
-    if x != 0:
-        if x > 0 and y >= 0:
-            angle = math.atan(y / x)
-        elif x > 0 > y:
-            angle = math.atan(y / x) + 2*math.pi
-        elif x < 0:
-            angle = math.atan(y / x) + math.pi
-        elif x == 0 and y > 0:
-            angle = math.pi/2
-        elif x == 0 and y < 0:
-            angle = 3*math.pi/2
-        else:
-            angle = 0
-        return [angle, math.sqrt(x*x+y*y)]
-    else:
-        return [math.pi/2, y]
-
-
-def one_turn_to_cartesian_points(turn: List):
+def one_turn_to_cartesian_points(turn: List[Tuple[float, float]]):
     """
 
     :param turn: [(theta, rho), ...], theta in radian
     :return: [array(x, y), ...]
     """
-    return [np.array([polar_to_x(measure), polar_to_y(measure)]) for measure in turn]
+    return [Point.from_polar(measure[0], measure[1]).to_array() for measure in turn]
 
 
 # def cartesian_points_to_array(cartesian_points):

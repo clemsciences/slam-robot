@@ -73,8 +73,13 @@ class Robot:
         self.add_measure(obstacles)
         return obstacles
 
-    def draw(self, ax: Any):
+    def draw(self, ax: Any, with_orientation: bool):
         ax.scatter([self.position.x], [self.position.y], color='red', marker='o', s=20)
+        if with_orientation:
+            vector = self.position.from_angle_to_vector(self.orientation)
+            other_position = vector.apply_to_point(self.position)
+            ax.arrow(self.position.x, self.position.y, math.cos(self.orientation), math.sin(self.orientation),
+                     head_width=0.05, head_length=0.05, fc="k", ec="k")
 
     def add_measure(self, obstacles: List[Point]):
         self.measures.append(RobotPerception(self.lifetime, obstacles, self.position))
