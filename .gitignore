@@ -1,2 +1,3 @@
 .idea
 .venv
+/src/course/_build/
