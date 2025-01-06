@@ -1,7 +1,10 @@
 format: jb-book
-root: intro
+root: 0_intro
 chapters:
-  - file: geometry
-  - file: environment
-  - file: robot_1
-  - file: lidar
+  - file: 1_geometry
+  - file: 2_environment
+  - file: 3_robot_1
+  - file: 4_lidar
+  - file: 5_uncertainty
+  - file: 6_filtering
+  - file: 7_path_planning
