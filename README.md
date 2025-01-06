@@ -1,3 +1,0 @@
-# SLAM for a robot
-
-
