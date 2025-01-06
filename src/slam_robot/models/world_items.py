@@ -99,14 +99,14 @@ class Circle(WorldItem):
         :return:
         """
         line = LineByPointAndAngle(origin, angle).line_by_two_points
-        print(f"origin: {origin}, angle: {angle}")
-        print(f"line point_1: {line.point_1}, line point_2: {line.point_2}")
+        # print(f"origin: {origin}, angle: {angle}")
+        # print(f"line point_1: {line.point_1}, line point_2: {line.point_2}")
         cartesian_line = line.cartesian_line
-        print(f"line: {line.cartesian_line.a}, {line.cartesian_line.b}, {line.cartesian_line.c}")
+        # print(f"line: {line.cartesian_line.a}, {line.cartesian_line.b}, {line.cartesian_line.c}")
 
         distance = (math.fabs(cartesian_line.a * self.center.x + cartesian_line.b * self.center.y + cartesian_line.c)
                     / math.sqrt(cartesian_line.a ** 2 + cartesian_line.b ** 2))
-        print(f"distance: {distance}, radius: {self.radius}")
+        # print(f"distance: {distance}, radius: {self.radius}")
         # Translate the center on the origin
         centered_point_1 = line.point_1 - self.center
         centered_point_2 = line.point_2 - self.center
@@ -119,7 +119,7 @@ class Circle(WorldItem):
         discriminant = self.radius ** 2 * d_r_squared - determinant ** 2
 
         if discriminant < 0:
-            print("The line does not intersect the circle.")
+            # print("The line does not intersect the circle.")
             return None
             # raise ValueError("The line does not intersect the circle.")
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from slam_robot.models.action import Turn, Move, Sense
+from slam_robot.models.action import Turn, Move, Sense, Wait
 from slam_robot.models.robot import Robot
 from slam_robot.models.world import World
 from slam_robot.models.world_items import Circle, LineByTwoPoints
@@ -33,7 +33,8 @@ actions = [
     Move.from_objective(10, 30),
     Sense(),
     Move.from_objective(10, 30),
-    Sense()
+    Sense(),
+    Wait(3)
 ]
 
 robot.apply_actions(actions, world_1)
@@ -44,7 +45,8 @@ def show(world: World,
          show_world: bool = True,
          show_measures: bool = True,
          show_robot: bool = True,
-         show_clusters: bool = False):
+         show_clusters: bool = False,
+         show_reality: bool = False):
     for measure in robot.measures:
         fix, ax = plt.subplots()
         if show_world:
@@ -65,6 +67,9 @@ def show(world: World,
             clusters = measure.clusterize()
             for cluster in clusters:
                 plt.scatter(cluster.x_points, cluster.y_points)
+        if show_reality:
+            trajectory = robot.recover_trajectory(actions, world_1, 0.5)
+            plt.scatter([position.x for position in trajectory.positions], [position.y for position in trajectory.positions], color="green")
         if show_robot:
             # robot.draw(ax)
             plt.scatter([measure.position.x], [measure.position.y], color="red")
@@ -76,4 +81,4 @@ def show(world: World,
 
 
 # show(world_1, robot, show_world=True, show_measures=True, show_robot=True)
-show(world_1, robot, show_world=True, show_measures=False, show_robot=False, show_clusters=True)
+show(world_1, robot, show_world=True, show_measures=False, show_robot=True, show_clusters=True, show_reality=True)
