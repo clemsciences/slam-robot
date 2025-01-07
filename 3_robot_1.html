@@ -380,6 +380,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-le-robot-se-deplace">Comment le robot se déplace ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-capteur-pour-suivre-sa-propre-trajectoire-l-odometrie">Le capteur pour suivre sa propre trajectoire : l’odométrie</a></li>
 </ul>
             </nav>
         </div>
@@ -409,9 +410,18 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_position</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
-<span class="n">initial_orientation</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">robot</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">(</span><span class="n">initial_position</span><span class="p">,</span> <span class="n">initial_orientation</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reinit_robot</span><span class="p">():</span>
+    <span class="n">initial_position</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">initial_orientation</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">robot</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">(</span><span class="n">initial_position</span><span class="p">,</span> <span class="n">initial_orientation</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">robot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span> <span class="o">=</span> <span class="n">reinit_robot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -520,13 +530,68 @@
 <img alt="_images/a383d0bb3f7e858f066b2cd02e600de40b280652a034c62499d4f9d678010ec0.png" src="_images/a383d0bb3f7e858f066b2cd02e600de40b280652a034c62499d4f9d678010ec0.png" />
 </div>
 </div>
+</section>
+<section id="le-capteur-pour-suivre-sa-propre-trajectoire-l-odometrie">
+<h2>Le capteur pour suivre sa propre trajectoire : l’odométrie<a class="headerlink" href="#le-capteur-pour-suivre-sa-propre-trajectoire-l-odometrie" title="Link to this heading">#</a></h2>
+<p>Jusqu’ici, nous avons vu la position et l’orientation du robot à différents instants. Voyons maintenant cela à travers le temps. Pour ce faire, on va simplement montrer</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span> <span class="o">=</span> <span class="n">reinit_robot</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
+
+<span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Contient les positions d&#39;arrivées</span>
+<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">turn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">turn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">turn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">position_1</span><span class="p">,</span> <span class="n">position_2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">position_1</span><span class="p">,</span> <span class="n">position_2</span><span class="p">)</span>
+    <span class="c1"># ax.axline((position_1.x, position_1.y), (position_2.x, position_2.y))</span>
+    <span class="c1"># ax.plot(position_1.x, position_1.y, position_2.x, position_2.y, c=&#39;k&#39;)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">position_1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">position_2</span><span class="o">.</span><span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">position_1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">position_2</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="c1"># for position in positions:</span>
+<span class="c1">#     ax.scatter([position.x], [position.y], color=&#39;red&#39;, marker=&#39;o&#39;, s=20)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(12,12) (13.0,12.0)
+(13.0,12.0) (13.497260947684136,12.052264231633826)
+(13.497260947684136,12.052264231633826) (13.790705227904278,12.114637738879154)
+(13.790705227904278,12.114637738879154) (14.076022182792824,12.207342837191637)
+</pre></div>
+</div>
+<img alt="_images/a5129f6d2583931e7e32f804831a8ad082af4a6e9a8bed6be9829cab28dcc448.png" src="_images/a5129f6d2583931e7e32f804831a8ad082af4a6e9a8bed6be9829cab28dcc448.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">positions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Point(12, 12),
+ Point(13.0, 12.0),
+ Point(13.497260947684136, 12.052264231633826),
+ Point(13.790705227904278, 12.114637738879154),
+ Point(14.076022182792824, 12.207342837191637)]
 </pre></div>
 </div>
 </div>
 </div>
+<p>Comment mesurer suivre la trajectoire du robot quand on est sur le robot ? Il suffit de</p>
 </section>
 </section>
 
@@ -596,6 +661,7 @@
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-le-robot-se-deplace">Comment le robot se déplace ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-capteur-pour-suivre-sa-propre-trajectoire-l-odometrie">Le capteur pour suivre sa propre trajectoire : l’odométrie</a></li>
 </ul>
   </nav></div>
 
