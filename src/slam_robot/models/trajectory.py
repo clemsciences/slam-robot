@@ -1,7 +1,7 @@
 """
 
 """
-from typing import Optional, List
+from typing import Optional, List, Any
 
 import numpy as np
 
@@ -51,6 +51,11 @@ class Trajectory:
             noisy_orientation = orientation + np.random.normal(0, scale)
             orientations.append(noisy_orientation)
         self.orientations = orientations
+
+    def draw(self, ax: Any):
+        for position_1, position_2 in zip([self.positions[:-1]], self.positions[1:]):
+            ax.axline(position_1.x, position_1.y, position_2.x, position_2.y)
+            # ax.scatter([position.x], [position.y], color='red', marker='o', s=20)
 
 
 class RobotSnapshot:
