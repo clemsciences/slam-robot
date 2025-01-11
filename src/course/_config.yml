@@ -11,7 +11,13 @@ repository:
   url: https://github.com/clemsciences/slam-robot
   path_to_book: src/course
   branch: master
+sphinx:
+  config:
+    language: fr
 html:
   use_repository_button: true
   use_issues_button: true
   use_edit_page_button: true
+  extra_footer: |
+    <div>
+    </div>
