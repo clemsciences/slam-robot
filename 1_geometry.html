@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="fr" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
@@ -37,6 +37,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=564be945" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
@@ -44,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/documentation_options.js?v=72dce1d2"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -54,6 +55,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="_static/translations.js?v=041d0952"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -64,11 +66,11 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '1_geometry';</script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="search" title="Recherche" href="search.html" />
     <link rel="next" title="Construire l’environnement du robot" href="2_environment.html" />
     <link rel="prev" title="Introduction" href="0_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="fr"/>
   <meta name="docsearch:version" content="" />
   </head>
   
@@ -149,9 +151,9 @@
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
+ <span class="search-button__default-text">Recherche</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
 </button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
@@ -231,7 +233,7 @@
       
       <li><a href="https://github.com/clemsciences/slam-robot" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
+   title="Dépôt source"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -265,7 +267,7 @@
       
       <li><a href="https://github.com/clemsciences/slam-robot/issues/new?title=Issue%20on%20page%20%2F1_geometry.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
+   title="Ouvrez un problème"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -286,7 +288,7 @@
 
 
 <div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
@@ -295,7 +297,7 @@
       
       <li><a href="_sources/1_geometry.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
+   title="Télécharger le fichier source"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -313,7 +315,7 @@
       <li>
 <button onclick="window.print()"
   class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
+  title="Imprimer au format PDF"
   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -333,7 +335,7 @@
 
 <button onclick="toggleFullScreen()"
   class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
+  title="Mode plein écran"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
@@ -353,7 +355,7 @@
 </button>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -375,7 +377,7 @@
         <div id="jb-print-toc">
             
             <div>
-                <h2> Contents </h2>
+                <h2> Contenu </h2>
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
@@ -402,14 +404,14 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="un-peu-de-geometrie-pour-se-reperer">
-<h1>Un peu de géométrie pour se repérer<a class="headerlink" href="#un-peu-de-geometrie-pour-se-reperer" title="Link to this heading">#</a></h1>
+<h1>Un peu de géométrie pour se repérer<a class="headerlink" href="#un-peu-de-geometrie-pour-se-reperer" title="Lien vers cette rubrique">#</a></h1>
 <p>On va revoir quelques définitions et quelques propriétés concernant la géométrie dans le plan (en dimension 2). Plus précisément, on se place dans un espace affine euclidien de dimension 2.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Un espace affine est un ensemble</p>
 </div>
 <section id="le-point">
-<h2>Le point<a class="headerlink" href="#le-point" title="Link to this heading">#</a></h2>
+<h2>Le point<a class="headerlink" href="#le-point" title="Lien vers cette rubrique">#</a></h2>
 <p>On peut définir un point comme un élément de <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. Par exemple <span class="math notranslate nohighlight">\(p = (x, y)\)</span> avec <span class="math notranslate nohighlight">\(x \in \mathbb{R}\)</span> et <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -482,7 +484,7 @@
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="vecteur">
-<h1>Vecteur<a class="headerlink" href="#vecteur" title="Link to this heading">#</a></h1>
+<h1>Vecteur<a class="headerlink" href="#vecteur" title="Lien vers cette rubrique">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">slam_robot.utils.geometry</span> <span class="kn">import</span> <span class="n">Vector</span>
@@ -507,11 +509,11 @@
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="droite">
-<h1>Droite<a class="headerlink" href="#droite" title="Link to this heading">#</a></h1>
+<h1>Droite<a class="headerlink" href="#droite" title="Lien vers cette rubrique">#</a></h1>
 <p>Equation cartésienne :</p>
 <p>Equation paramétrique :</p>
 <section id="un-segment">
-<h2>Un segment<a class="headerlink" href="#un-segment" title="Link to this heading">#</a></h2>
+<h2>Un segment<a class="headerlink" href="#un-segment" title="Lien vers cette rubrique">#</a></h2>
 <p>Equation cartésienne :</p>
 <p>Equation paramétrique :</p>
 <p>On peut définir un segment comme l’ensemble des points situés entre deux points.</p>
@@ -538,7 +540,7 @@
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="cercle">
-<h1>Cercle<a class="headerlink" href="#cercle" title="Link to this heading">#</a></h1>
+<h1>Cercle<a class="headerlink" href="#cercle" title="Lien vers cette rubrique">#</a></h1>
 <p>On définit classiquement un cercle comme étant l’ensemble des points qui sont à une certaine distance d’un point.</p>
 <p>Soit C, un cercle de centre <span class="math notranslate nohighlight">\((x_{c}, y_{c})\)</span> et de rayon r. Pout un point P de coordonnées <span class="math notranslate nohighlight">\((x, y)\)</span>, on a :
 <span class="math notranslate nohighlight">\(P \in C \iff (x - x_{c})^2 +(y - y_{c})^2 = r^2\)</span></p>
@@ -595,7 +597,7 @@
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-subtitle">précédent</p>
         <p class="prev-next-title">Introduction</p>
       </div>
     </a>
@@ -603,7 +605,7 @@
        href="2_environment.html"
        title="next page">
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-subtitle">suivant</p>
         <p class="prev-next-title">Construire l’environnement du robot</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
@@ -621,7 +623,7 @@
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
+    <i class="fa-solid fa-list"></i> Contenu
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
@@ -650,7 +652,7 @@
   <div class="footer-item">
     
 <p class="component-author">
-By Clément Besnier
+Par Clément Besnier
 </p>
 
   </div>
@@ -673,6 +675,10 @@ By Clément Besnier
   
   <div class="footer-item">
     
+<div class="extra_footer">
+  <div>
+</div>
+</div>
   </div>
   
 </div>
