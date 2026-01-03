@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Le lidar pour voir &#8212; Simulation robotique</title>
+    <title>Le lidar pour mesurer et se situer &#8212; Simulation robotique</title>
   
   
   
@@ -62,10 +62,12 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '4_lidar';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
-    <link rel="next" title="L’incertitude ajoutée" href="5_uncertainty.html" />
+    <link rel="next" title="Se positionner grâce à une balise" href="4_1_self_positioning.html" />
     <link rel="prev" title="Le robot agit" href="3_robot_1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
@@ -167,11 +169,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_geometry.html">Un peu de géométrie pour se repérer</a></li>
 
-
-
 <li class="toctree-l1"><a class="reference internal" href="2_environment.html">Construire l’environnement du robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3_robot_1.html">Le robot agit</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Le lidar pour voir</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Le lidar pour mesurer et se situer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_1_self_positioning.html">Se positionner grâce à une balise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="5_uncertainty.html">L’incertitude ajoutée</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_filtering.html">Le filtrage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_path_planning.html">Retrouver son chemin</a></li>
@@ -369,7 +370,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Le lidar pour voir</h1>
+    <h1>Le lidar pour mesurer et se situer</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -379,8 +380,21 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fonctionnement-sommaire-d-un-lidar">Fonctionnement sommaire d’un lidar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#balise">Balise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#description-sommaire-du-fonctionnement-d-un-lidar">Description sommaire du fonctionnement d’un lidar</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-differents-composants">Les différents composants.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#le-laser">Le laser</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#le-balayage-optique">Le balayage optique</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#le-photorecepteur">Le photorécepteur</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#l-electronique">L’électronique</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-retrodiffusion">La rétrodiffusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-temps-de-vol">Le temps de vol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lidar-rotatif">Lidar rotatif</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
 </ul>
             </nav>
         </div>
@@ -392,49 +406,210 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="le-lidar-pour-voir">
-<h1>Le lidar pour voir<a class="headerlink" href="#le-lidar-pour-voir" title="Lien vers cette rubrique">#</a></h1>
-<p>Normalement, on devrait écrire LiDAR pour (<strong>Li</strong>ght <strong>D</strong>etection <strong>A</strong>nd <strong>R</strong>anging), mais lidar est plus facile à lire. De plus, on suit le destin qu’a pris
-laser (<strong>L</strong>ight <strong>A</strong>mplification by <strong>S</strong>timulated <strong>E</strong>mission of <strong>R</strong>adiation).</p>
-<section id="fonctionnement-sommaire-d-un-lidar">
-<h2>Fonctionnement sommaire d’un lidar<a class="headerlink" href="#fonctionnement-sommaire-d-un-lidar" title="Lien vers cette rubrique">#</a></h2>
-<p>Le but d’un lidar est de mesurer la distance des obstacles autour de celui-ci.</p>
-<p>Le lidar qui nous intéresse est constitué d’un laser, d’un récepteur optique et d’une partie mécanique capable de tourner autour d’un axe vertical.</p>
-<p>Le lidar tourne autour de son axe de rotation avec le laser en fonctionnement et le récepteur qui mesure la variation de l’intensité lumineuse mesurée au cours du temps.</p>
-<p>Le laser émet un rayon lumineux cohérent et polarisé dans et autour du domaine spectral visible.</p>
-<p>Le récepteur optique est utile seulement si le laser est à l’origine d’un processus qui fait que de la lumière est retournée au récepteur optique.</p>
-<p>Le phénomène général qui permet à la lumière d’être renvoyée se nomme la <strong>réflexion</strong>. Il se trouve que le phénomène de réflexion de la lumière dans la direction d’origine existe et se nomme la <strong>rétrodiffusion</strong>.</p>
-<p>Le lidar est particulièrement utile pour distinguer les obstacles et des balises.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="le-lidar-pour-mesurer-et-se-situer">
+<h1>Le lidar pour mesurer et se situer<a class="headerlink" href="#le-lidar-pour-mesurer-et-se-situer" title="Lien vers cette rubrique">#</a></h1>
+<p>Nous avons vu comment le robot se situe dans son environnement du point de vue d’un observateur extérieur. La tâche qui va nous occuper pendant tout le long de ce chapitre est de voir comment le robot peut se situer lui-même.</p>
+<p>Dans un premier temps, nous nous intéressons à un instrument de mesure très utilisé pour situer les robots dans leur environnement : le <strong>lidar</strong>. Normalement, on devrait écrire LiDAR pour (<strong>Li</strong>ght <strong>D</strong>etection <strong>A</strong>nd <strong>R</strong>anging), mais lidar est plus facile à lire.</p>
+<p>Ensuite, nous verrons comment le lidar peut être utilisé avec des balises afin de découvrir la position du robot en connaissant la position de la balise et la position relative du robot par rapport à la balise.</p>
+<section id="description-sommaire-du-fonctionnement-d-un-lidar">
+<h2>Description sommaire du fonctionnement d’un lidar<a class="headerlink" href="#description-sommaire-du-fonctionnement-d-un-lidar" title="Lien vers cette rubrique">#</a></h2>
+<p>Le but d’un lidar est de mesurer la distance des obstacles autour de celui-ci. Un lidar est un dispositif combinant plusieurs composants :</p>
+<ul class="simple">
+<li><p>un composant lumineux, i. e. le <strong>laser</strong>,</p></li>
+<li><p>un composant permettant de balayer l’espace à mesurer, i. e. le dispositif de <strong>balayage optique</strong>,</p></li>
+<li><p>un composant pour capter la lumière retournée, i. e. <strong>un photodétecteur</strong>,</p></li>
+<li><p>un composant élecronique pour commander les parties mécaniques et optiques et pour mesurer le temps et l’intensité lumineuse,</p></li>
+</ul>
+<section id="les-differents-composants">
+<h3>Les différents composants.<a class="headerlink" href="#les-differents-composants" title="Lien vers cette rubrique">#</a></h3>
+<section id="le-laser">
+<h4>Le laser<a class="headerlink" href="#le-laser" title="Lien vers cette rubrique">#</a></h4>
+<p>Le <strong>laser</strong> émet un rayon lumineux cohérent et polarisé dans et autour du domaine spectral visible.
+La caractéristique principale du rayon lumineux est la longueur d’onde du rayon lumineux.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>LASER est à l’origine un acronyme signifiant Light Amplification by Stimulated Emission of Radiation, ou autrement, amplification de la lumière par émission stimulée de radiation. Un laser utilise le principe de l’énergie quantifiée des atomes. D’abord, il faut un milieu qui soit propice aux émissions stimulées (contraitrement aux émissions spontanées), un milieu où ces émissions pourront s’amplifier et l’élément déclencheur pour réaliser l’inversion de population (passage des atomes d’un état excité à l’état fondamental). Naturellement, les atomes dans un état excité regagnent leur état fondamental en un temps de l’ordre de 10 nanosecondes. Si un photon, qui a une énergie exactement égale à la différence entre l’énergie de l’état excité et l’énergie de l’état fondamental, atteint un atome dans un état excité, alors un autre photon de même énergie est émis et l’atome regagne son état fondamental. A l’équilibre, il y a plus d’atomes dans l’état fondamental que dans un état excité (loi de Boltzmann).</p>
+</div>
 </section>
-<section id="balise">
-<h2>Balise<a class="headerlink" href="#balise" title="Lien vers cette rubrique">#</a></h2>
-<p>Une balise est un élément conçu pour être aisément reconnaissable et dont la position est fixe. Pour nos exemple, la balise est un cylindre à la verticale. Sa base circulaire permet de modéliser une balise par un obstacle en forme de cercle.</p>
+<section id="le-balayage-optique">
+<h4>Le balayage optique<a class="headerlink" href="#le-balayage-optique" title="Lien vers cette rubrique">#</a></h4>
+<p>Le <strong>balayage optique</strong> sert à pointer le rayon lumineux dans une direction précise pour espérer avoir un retour directement dans le photodétecteur. Le dispositif peut être :</p>
+<ul class="simple">
+<li><p><strong>rotatif</strong>, i. e. le laser tourne autour d’un axe (vertical surtout) et balaye les obstacles dans un plan horizontal,</p></li>
+<li><p><strong>MEMS</strong> (pour <a class="reference external" href="https://en.wikipedia.org/wiki/MEMS">Micro-ElectroMechanical System</a>), i. e. un système électronique dont la taille est de l’ordre 1 à 100 µm qui gère le mouvement d’un miroir.</p></li>
+</ul>
+</section>
+<section id="le-photorecepteur">
+<h4>Le photorécepteur<a class="headerlink" href="#le-photorecepteur" title="Lien vers cette rubrique">#</a></h4>
+<p>Le récepteur optique est placé de telle sorte que la lumière du laser, qui réfléchit sur l’obstacle, revient principalement sur lui. Alors le photorécepteur convertit le signal lumineux en signal électrique.</p>
+</section>
+<section id="l-electronique">
+<h4>L’électronique<a class="headerlink" href="#l-electronique" title="Lien vers cette rubrique">#</a></h4>
+<p>La mesure du temps dans un dispositif électronique se fait en comptant le nombre de cycle en sachant la durée d’un cycle.
+La commande se fait au moins par un microcontrôleur.</p>
+</section>
+</section>
+<section id="la-retrodiffusion">
+<h3>La rétrodiffusion<a class="headerlink" href="#la-retrodiffusion" title="Lien vers cette rubrique">#</a></h3>
+<p>Le phénomène général qui permet à la lumière d’être renvoyée se nomme la <strong>réflexion</strong>. Il se trouve que le phénomène de réflexion de la lumière dans la direction d’origine existe et se nomme la <strong>rétrodiffusion</strong>.</p>
+</section>
+<section id="le-temps-de-vol">
+<h3>Le temps de vol<a class="headerlink" href="#le-temps-de-vol" title="Lien vers cette rubrique">#</a></h3>
+<p>La distance entre le lidar et l’objet détecté est mesurée par le temps que met la lumière du laser à aller sur l’objet, à se réfléchir sur l’objet et à revenir sur le photorécepteur.</p>
+<p>Soit R le robot et M l’object détecté, on démarre le chronomètre à l’instant <span class="math notranslate nohighlight">\(t_i\)</span> et on l’arrête quand la lumière revient sur le photorécepteur à l’instant <span class="math notranslate nohighlight">\(t_f\)</span>. Dans ce laps de temps, la lumière a parcouru une distance de <span class="math notranslate nohighlight">\(d(R, M) + d(M, R)\)</span>. Le milieu traversé est l’air de l’atmosphère terrestre à basse altitude. Soit <span class="math notranslate nohighlight">\(n_{air}\)</span> son indice de réfraction connu. La vitesse de la lumière dans ce milieu est <span class="math notranslate nohighlight">\(\frac{n_{air}}{c}\)</span>. On peut relier les grandeurs identifiées par la formule suivante : <span class="math notranslate nohighlight">\(d(R, M) + d(M, R) = \frac{n_{air}}{c} (t_f - t_i)\)</span>. Comme <span class="math notranslate nohighlight">\(d(R, M) = d(M, R)\)</span> (on suppose que le robot et l’obstacle étaient immobiles durant la mesure), alors <span class="math notranslate nohighlight">\(d(R, M) = \frac{n_{air}(t_f - t_i)}{2c}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Le principe de Fermat qui est un dérivé du principe de moindre action affirme que la lumiière emprunte le chemin le plus court. Dans le cas où l’indice de réfraction du milieu traversé reste homogène, ce qui est le cas dans des conditions normales, la lumière a une trajectoire rectiligne. Dans le vide, la lumière a une vitesse de c = 299 792 458 m/s.
+Pour rappel, l’indice de réfraction d’un milieu est le rapport de la vitesse de la lumière dans le vide sur la vitesse de phase.</p>
+</div>
+</section>
+<section id="lidar-rotatif">
+<h3>Lidar rotatif<a class="headerlink" href="#lidar-rotatif" title="Lien vers cette rubrique">#</a></h3>
+<p>Le lidar qui nous intéresse est constitué d’un laser, d’un récepteur optique et d’une partie mécanique capable de tourner autour d’un axe vertical. Pour un angle donné, le lidar nous donne la distance entre le lidar et l’obstacle visible pour cet angle.</p>
+<p>Les caractéristiques d’un tel lidar sont :</p>
+<ul class="simple">
+<li><p>l’intervalle de distance mesurable, (si c’est trop loin, la lumière qui revient est trop faible pour être distinguée et si c’est trop près, la lumière qui revient est trop puissante pour déterminer la distance),</p></li>
+<li><p>la fréquence d’échantillonage,</p></li>
+<li><p>la vitesse de rotation,</p></li>
+<li><p>la résolution angulaire,</p></li>
+<li><p>l’intervalle angulaire (au mieux, c’est 360°).</p></li>
+</ul>
+<p>Le lidar nous donne accès à une version discrétise de cette fonction <span class="math notranslate nohighlight">\(\theta(t) \rightarrow \rho(\theta(t))\)</span>. Nous notons <span class="math notranslate nohighlight">\(R_N(t) = \{(\theta_i, \rho_i), i \in 1:N\}\)</span> l’ensemble des <span class="math notranslate nohighlight">\(N\)</span> mesures prises pour une rotation du lidar démarrée à l’instant t.</p>
+<p>L’accès à une <strong>rangée de points</strong> autour du lidar nous donne la possibilité de distinguer la forme des obstacles environnants. Les balises, des obstacles choisis, sont les éléments que nous chercherons en premier. C’est ce que nous décrivons dans le paragraphe suivant.</p>
+</section>
+</section>
+<section id="visualisation">
+<h2>Visualisation<a class="headerlink" href="#visualisation" title="Lien vers cette rubrique">#</a></h2>
+<p>Visualisons ce qu’un lidar peut nous montrer. Plaçons-nous d’abord dans un repère polaire donc l’origine est le centre du lidar. C’est la manière la plus naturelle de montrer ce qu’un lidar a mesuré.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_05_05_2019_lidar_measures</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param directory_name:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">json</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">from</span> <span class="nn">slam_robot</span> <span class="kn">import</span> <span class="n">PACKDIR</span>
+    <span class="n">measures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PACKDIR</span><span class="p">,</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;samples&quot;</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;lidar&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PACKDIR</span><span class="p">,</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;samples&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="n">measures</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">measures</span>
+
+<span class="c1"># get_05_05_2019_lidar_measures()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">polar_circle_equation</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">minimal_distance</span><span class="p">,</span> <span class="n">angle_at_minimal_distance</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">minimal_distance</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">angle_at_minimal_distance</span><span class="p">))</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">polar_circle_equation</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="n">minimum_distance</span> <span class="o">=</span> <span class="mi">80</span>  <span class="c1"># in mm</span>
+<span class="n">maximum_distance</span> <span class="o">=</span> <span class="mi">3500</span>  <span class="c1"># in mm</span>
+
+<span class="k">def</span> <span class="nf">filter_keep_good_measure</span><span class="p">(</span><span class="n">measure</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">threshold</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">measure</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+
+
+<span class="k">def</span> <span class="nf">keep_good_measures</span><span class="p">(</span><span class="n">turn</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param turn: list of measures ; one measure is [angle (in rad), distance (in m), quality (from 0 to 47)]</span>
+<span class="sd">    :param threshold:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">measure</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">turn</span> <span class="k">if</span> <span class="n">filter_keep_good_measure</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">filter_keep_not_too_far_or_not_too_close</span><span class="p">(</span><span class="n">measure</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]):</span>
+    <span class="k">return</span> <span class="n">minimum_distance</span> <span class="o">&lt;</span> <span class="n">measure</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">maximum_distance</span>
+
+
+
+<span class="k">def</span> <span class="nf">filter_points</span><span class="p">(</span><span class="n">one_turn</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param one_turn: measures in cartesian coordinates and rotates so that angle measures are normalized</span>
+<span class="sd">    :param threshold:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">measure</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">measure</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">one_turn</span>
+            <span class="k">if</span> <span class="n">filter_keep_not_too_far_or_not_too_close</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="n">filter_keep_good_measure</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">slam_robot.models.beacon</span> <span class="kn">import</span> <span class="n">CylinderBeacon</span>
+<span class="n">measures</span> <span class="o">=</span> <span class="n">get_05_05_2019_lidar_measures</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">measures</span> <span class="o">=</span> <span class="n">filter_points</span><span class="p">(</span><span class="n">measures</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">theta</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">measure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">measures</span><span class="p">])</span>
+<span class="n">r</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">measure</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">measures</span><span class="p">])</span>
 
-<span class="n">beacon_1</span> <span class="o">=</span> <span class="n">CylinderBeacon</span><span class="p">()</span>
-<span class="c1"># Nous définissons ici une balise dont la position est (10, 10) et le rayon de 4 cm. Cette balise porte l&#39;indice n° 1.</span>
-<span class="n">beacon_1</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
-<span class="n">beacon_1</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="s2">&quot;g,&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;A line plot on a polar axis&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Exemple de mesure prise par un Lidar de marque RPLIDAR A3&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e31401c8857f5c6af71ce3480f5ffd1c513ec207433282f4b54c2825e474a247.png" src="_images/e31401c8857f5c6af71ce3480f5ffd1c513ec207433282f4b54c2825e474a247.png" />
+<img alt="_images/16cc3694c693cf2503614a45b193ab3adbde868bb4bca6b27b43ceb8d9ba87ea.png" src="_images/16cc3694c693cf2503614a45b193ab3adbde868bb4bca6b27b43ceb8d9ba87ea.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">slam_robot.models.world_items</span> <span class="kn">import</span> <span class="n">Point</span>
-</pre></div>
-</div>
-</div>
-</div>
+<p>Le lidar étant au centre, dès qu’un obstacle est repéré par le laser, sa distance est relevée et ce pour tous les angles mesurés. Il ne peut y avoir d’obstacle relevé derrière un obstacle déjà relevé.</p>
+</section>
+<section id="bibliographie">
+<h2>Bibliographie<a class="headerlink" href="#bibliographie" title="Lien vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.thalesgroup.com/fr/marches/aerospace/blog/lidar-comment-ca-marche">Introduction aux systèmes LiDAR (Thalès Group)</a> - Pour une vue d’ensemble industrielle.</p></li>
+<li><p><a class="reference external" href="https://perso.ensta.fr/~chapoutot/teaching/robotique-mobile/slides/Filliat_Navigation_ENSTAParis.pdf">Cours sur la navigation des robots mobiles (B. Filliat, ENSTA Paris)</a> - Pour l’intégration du lidar dans le SLAM.</p></li>
+<li><p><a class="reference external" href="https://www.slamtec.com/en/Lidar/A3">RPLidar A3 - Introduction and Datasheet</a> - Un exemple concret de lidar à triangulation très utilisé en robotique mobile.</p></li>
+<li><p><a class="reference external" href="https://velodynelidar.com/what-is-lidar/">How Lidar Works (Velodyne)</a> - Ressources didactiques sur le ToF et les lidars 3D/2D.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lidar">LiDAR - Wikipedia</a> - Pour les principes physiques détaillés (rétrodiffusion, réflexion).</p></li>
+<li><p><a class="reference external" href="https://femto-physique.fr/optique/pdf/presentation-laser.pdf">Introduction au LASER</a> - Introduction aux LASER.</p></li>
+</ul>
 </section>
 </section>
 
@@ -478,11 +653,11 @@ laser (<strong>L</strong>ight <strong>A</strong>mplification by <strong>S</stron
       </div>
     </a>
     <a class="right-next"
-       href="5_uncertainty.html"
+       href="4_1_self_positioning.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">suivant</p>
-        <p class="prev-next-title">L’incertitude ajoutée</p>
+        <p class="prev-next-title">Se positionner grâce à une balise</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -503,8 +678,21 @@ laser (<strong>L</strong>ight <strong>A</strong>mplification by <strong>S</stron
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fonctionnement-sommaire-d-un-lidar">Fonctionnement sommaire d’un lidar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#balise">Balise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#description-sommaire-du-fonctionnement-d-un-lidar">Description sommaire du fonctionnement d’un lidar</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-differents-composants">Les différents composants.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#le-laser">Le laser</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#le-balayage-optique">Le balayage optique</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#le-photorecepteur">Le photorécepteur</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#l-electronique">L’électronique</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-retrodiffusion">La rétrodiffusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-temps-de-vol">Le temps de vol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lidar-rotatif">Lidar rotatif</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
 </ul>
   </nav></div>
 

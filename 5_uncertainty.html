@@ -66,7 +66,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
     <link rel="next" title="Le filtrage" href="6_filtering.html" />
-    <link rel="prev" title="Le lidar pour voir" href="4_lidar.html" />
+    <link rel="prev" title="Le lidar pour mesurer et se situer" href="4_lidar.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
   <meta name="docsearch:version" content="" />
@@ -167,11 +167,9 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_geometry.html">Un peu de géométrie pour se repérer</a></li>
 
-
-
 <li class="toctree-l1"><a class="reference internal" href="2_environment.html">Construire l’environnement du robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3_robot_1.html">Le robot agit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4_lidar.html">Le lidar pour voir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_lidar.html">Le lidar pour mesurer et se situer</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">L’incertitude ajoutée</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_filtering.html">Le filtrage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_path_planning.html">Retrouver son chemin</a></li>
@@ -398,7 +396,7 @@
 <p>La réponse est oui, mais c’est insuffisant pour affirmer que les processus physiques sont forcément déterministes. Nous allonns voir d’où vient le hasard et comment on peut s’en défaire. Puis nous allons visualiser les écarts entre la théorie et la réalité.</p>
 <section id="id1">
 <h2><a class="headerlink" href="#id1" title="Lien vers cette rubrique">#</a></h2>
-<p>Plusieurs raisons peuvent nous amener à envisager des facteurs aléatoires à ces processus. Il y a tout d’abord la méconnaissance des conditions initiales exactes. La physique quantique, avec son inégalité de Heisenberg, nous enseigne qu’il est impossible d’avoir une connaissance aussi poussée que voulue de plusieurs grandeurs physiques (on parle d’observables qui ne sont pas commutatives). De plus, par définition d’un système quantique, celui-ci est représenté par une densité de probabilité. Et nous ne pouvons accéder à l’état d’un système quantique qu’après une mesure, qui détruit l’état de superposition potentielle d’une particule. Des écarts entre la représentation de la réalité et la réalité peuvent nous mener à des résultats différents. Il y a ensuite l’enseignment de la physique statistique qui découle en partie de la première raison. Pour des éléments traités en très grand nombre, la réalisation du processus à l’ensemble des particules fait appel à la loi des grands nombres. C’est alors que des probabilités peuvent être introduites, même à nos échelles.</p>
+<p>Plusieurs raisons peuvent nous amener à envisager des facteurs aléatoires à ces processus. Il y a tout d’abord la méconnaissance des conditions initiales exactes. La physique quantique, avec son inégalité de Heisenberg, nous enseigne qu’il est impossible d’avoir une connaissance aussi poussée que voulue de plusieurs grandeurs physiques (on parle d’observables qui ne sont pas commutatives). Cette inagélité n’est néanmoins uniquement valable à l’échelle quantique. De plus, par définition d’un système quantique, celui-ci est représenté par une densité de probabilité. Et nous ne pouvons accéder à l’état d’un système quantique qu’après une mesure, qui détruit l’état de superposition potentielle d’une particule. Des écarts entre la représentation de la réalité et la réalité peuvent nous mener à des résultats différents. Il y a ensuite l’enseignment de la physique statistique qui découle en partie de la première raison. Pour des éléments traités en très grand nombre, la réalisation du processus à l’ensemble des particules fait appel à la loi des grands nombres. C’est alors que des probabilités peuvent être introduites, même à nos échelles.</p>
 <p>Pourquoi parler de physique alors que nous faisons de la robotique ?!?</p>
 <p>La robotique est basée sur le monde physique et ne peut échapper à ses lois. Plus précisément, un robot a des capteurs soumis à des erreurs.</p>
 </section>
@@ -470,7 +468,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Point(11.942698099557362, 11.933991819020388)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Point(11.900748509407194, 11.948845335468304)
 </pre></div>
 </div>
 </div>
@@ -526,7 +524,7 @@
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">précédent</p>
-        <p class="prev-next-title">Le lidar pour voir</p>
+        <p class="prev-next-title">Le lidar pour mesurer et se situer</p>
       </div>
     </a>
     <a class="right-next"

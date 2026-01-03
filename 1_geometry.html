@@ -168,12 +168,10 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Un peu de géométrie pour se repérer</a></li>
-
-
-
 <li class="toctree-l1"><a class="reference internal" href="2_environment.html">Construire l’environnement du robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3_robot_1.html">Le robot agit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4_lidar.html">Le lidar pour voir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_lidar.html">Le lidar pour mesurer et se situer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_1_self_positioning.html">Se positionner grâce à une balise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="5_uncertainty.html">L’incertitude ajoutée</a></li>
 <li class="toctree-l1"><a class="reference internal" href="6_filtering.html">Le filtrage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7_path_planning.html">Retrouver son chemin</a></li>
@@ -381,18 +379,20 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Un peu de géométrie pour se repérer</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-point">Le point</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vecteur">Vecteur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#droite">Droite</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vecteur">Vecteur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#produit-scalaire">Produit scalaire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance">Distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#droite">Droite</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-segment">Un segment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cercle">Cercle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations">Transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translations">Translations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotations">Rotations</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cercle">Cercle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -408,8 +408,14 @@
 <p>On va revoir quelques définitions et quelques propriétés concernant la géométrie dans le plan (en dimension 2). Plus précisément, on se place dans un espace affine euclidien de dimension 2.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Un espace affine est un ensemble</p>
+<p>Un espace affine euclidien est la géométrie telle qu’on l’a apprise depuis le début de notre scolarité. Bien que les vecteurs soient abordés que bien plus tard, ils en sont une partie essentielle.</p>
+<p>On se donne un espace vectoriel E sur le corps <span class="math notranslate nohighlight">\(\mathbb{K}\)</span>. On appelle un espace affine sur <span class="math notranslate nohighlight">\(\mathbb{K}\)</span> d’espace directeur E, un ensemble <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> non vide muni d’une application <span class="math notranslate nohighlight">\(\phi\)</span> de <span class="math notranslate nohighlight">\(\mathcal{E} \times \mathcal{E} \to E\)</span> tel que <span class="math notranslate nohighlight">\((x, y) \mapsto \overrightarrow{xy}\)</span> ou <span class="math notranslate nohighlight">\(\phi(x, y) = \overrightarrow{xy} \in \mathnormal{E}\)</span> avec les deux propriétés suivantes :</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall\ (x, y, z) \in \mathcal{E}^3, \overrightarrow{xy} + \overrightarrow{yz} = \overrightarrow{xz}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall\ x \in \mathcal{E}, \forall u \in E, \exists!\ y \in \mathcal{E} / \overrightarrow{xy} = u\)</span></p></li>
+</ul>
 </div>
+<p>Plus rigoureusement parlant, l’espace affine euclien est <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> sur le corps <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
 <section id="le-point">
 <h2>Le point<a class="headerlink" href="#le-point" title="Lien vers cette rubrique">#</a></h2>
 <p>On peut définir un point comme un élément de <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. Par exemple <span class="math notranslate nohighlight">\(p = (x, y)\)</span> avec <span class="math notranslate nohighlight">\(x \in \mathbb{R}\)</span> et <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span>.</p>
@@ -454,12 +460,55 @@
 </div>
 </div>
 </div>
+</section>
+<section id="vecteur">
+<h2>Vecteur<a class="headerlink" href="#vecteur" title="Lien vers cette rubrique">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">slam_robot.utils.geometry</span> <span class="kn">import</span> <span class="n">Vector</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dans un espace affine, un vecteur peut se définir comme une différence entre deux éléments de cet espace.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector_1</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span>
+<span class="n">vector_1</span><span class="o">.</span><span class="n">set_by_point</span><span class="p">(</span><span class="n">point_1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vector_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 - 13
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="produit-scalaire">
+<h2>Produit scalaire<a class="headerlink" href="#produit-scalaire" title="Lien vers cette rubrique">#</a></h2>
+<p>Le produit scalaire est une opération qui agit sur deux vecteurs. Dans notre espace, il prend la forme suivante pour les vecteurs <span class="math notranslate nohighlight">\(u\)</span> et <span class="math notranslate nohighlight">\(v\)</span> : <span class="math notranslate nohighlight">\(u \cdot v = x_u x_v + y_u y_v\)</span>.</p>
+<p>On définit la norme comme étant la racine carré du produit scalaire d’un vecteur par lui-même.</p>
+<p><span class="math notranslate nohighlight">\(||u|| = \sqrt{u \cdot u}\)</span></p>
+<p>Une propriété intéressante des produits scalaires est que le produit de deux vecteurs non nuls est nul si et seulement si les vecteurs sont orthogonaux.</p>
+</section>
+<section id="distance">
+<h2>Distance<a class="headerlink" href="#distance" title="Lien vers cette rubrique">#</a></h2>
 <p>On peut aussi calculer la distance entre deux points <span class="math notranslate nohighlight">\(p_{1}(x_1, y_1)\)</span> et <span class="math notranslate nohighlight">\(p_{2}(x_2,y_2)\)</span> : <span class="math notranslate nohighlight">\(d(p_{1}, p_{2}) = \sqrt{(x_{1} - x_{2})^{2} + (y_{1} - y_{2})^{2}}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La distance entre deux points provient de la norme du vecteur qui relie les deux points. Soient <span class="math notranslate nohighlight">\((A, B) \in \mathcal{E}\)</span>, on note ce vecteur <span class="math notranslate nohighlight">\(\overrightarrow{AB}\)</span>. On peut aussi écrire <span class="math notranslate nohighlight">\(B - A = \overrightarrow{AB}\)</span> dont les composantes sont
+<span class="math notranslate nohighlight">\(\begin{pmatrix}
+x_{B} - x_{A} \\
+ y_{B} - y_{A}
+\end{pmatrix}\)</span>.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">point_2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">point_1</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">point_2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">point_1</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">point_2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">point_1</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">point_2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">point_1</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">point_2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -482,41 +531,26 @@
 </div>
 </div>
 </section>
+<section id="droite">
+<h2>Droite<a class="headerlink" href="#droite" title="Lien vers cette rubrique">#</a></h2>
+<p>Une droite est la donnée d’un point et d’un vecteur directeur.</p>
+<p>Soient A un point de E et <span class="math notranslate nohighlight">\(\overrightarrow{u}\)</span> de <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> non nul. Un point M appartient à la droite D si et seulement s’il existe un réel t tel que  <span class="math notranslate nohighlight">\(M = A + t\ \overrightarrow{u}\)</span>. On peut réécrire cela <span class="math notranslate nohighlight">\(D = \{t \in \mathbb{R}: A + t\ \overrightarrow{u}\}\)</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Une droite peut être définie formellement comme un sous-espace affine de E de dimension 1. Cela signifie que l’espace vectoriel associé est de dimension 1 et donc qu’un seul vecteur constitue une base de celle-ci.</p>
+</div>
+<p>Une équation paramétrique d’une droite est de la forme : <span class="math notranslate nohighlight">\(t \in \mathbb{R} \mapsto A + t\ \overrightarrow{u}\)</span></p>
+<p>Une équation cartésienne d’une droite est de la forme : <span class="math notranslate nohighlight">\(a x + b y + c = 0\)</span>, avec <span class="math notranslate nohighlight">\(a, b, c\)</span> des coefficients réels et <span class="math notranslate nohighlight">\((x, y)\)</span> les coordonnées réelles d’un point de la droite.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="vecteur">
-<h1>Vecteur<a class="headerlink" href="#vecteur" title="Lien vers cette rubrique">#</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">slam_robot.utils.geometry</span> <span class="kn">import</span> <span class="n">Vector</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Dans un espace affine, un vecteur peut se définir comme une différence entre deux éléments de cet espace.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector_1</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span>
-<span class="n">vector_1</span><span class="o">.</span><span class="n">set_by_point</span><span class="p">(</span><span class="n">point_1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">vector_1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 - 2
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="droite">
-<h1>Droite<a class="headerlink" href="#droite" title="Lien vers cette rubrique">#</a></h1>
-<p>Equation cartésienne :</p>
-<p>Equation paramétrique :</p>
 <section id="un-segment">
 <h2>Un segment<a class="headerlink" href="#un-segment" title="Lien vers cette rubrique">#</a></h2>
+<p>On peut définir un segment comme l’ensemble des points situés entre deux points.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Mathématiquement parlant, on peut représenter l’ensemble des points d’un segment comme <span class="math notranslate nohighlight">\(\{M, t \in [0, 1], t\ \overrightarrow{MA} + (1 - t)\ \overrightarrow{MB}\}\)</span>.</p>
+</div>
 <p>Equation cartésienne :</p>
 <p>Equation paramétrique :</p>
-<p>On peut définir un segment comme l’ensemble des points situés entre deux points.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">slam_robot.utils.geometry</span> <span class="kn">import</span> <span class="n">Segment</span>
@@ -538,9 +572,8 @@
 </div>
 </div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="cercle">
-<h1>Cercle<a class="headerlink" href="#cercle" title="Lien vers cette rubrique">#</a></h1>
+<section id="cercle">
+<h2>Cercle<a class="headerlink" href="#cercle" title="Lien vers cette rubrique">#</a></h2>
 <p>On définit classiquement un cercle comme étant l’ensemble des points qui sont à une certaine distance d’un point.</p>
 <p>Soit C, un cercle de centre <span class="math notranslate nohighlight">\((x_{c}, y_{c})\)</span> et de rayon r. Pout un point P de coordonnées <span class="math notranslate nohighlight">\((x, y)\)</span>, on a :
 <span class="math notranslate nohighlight">\(P \in C \iff (x - x_{c})^2 +(y - y_{c})^2 = r^2\)</span></p>
@@ -560,6 +593,26 @@
 </div>
 </div>
 </div>
+</section>
+<section id="transformations">
+<h2>Transformations<a class="headerlink" href="#transformations" title="Lien vers cette rubrique">#</a></h2>
+<section id="translations">
+<h3>Translations<a class="headerlink" href="#translations" title="Lien vers cette rubrique">#</a></h3>
+</section>
+<section id="rotations">
+<h3>Rotations<a class="headerlink" href="#rotations" title="Lien vers cette rubrique">#</a></h3>
+</section>
+</section>
+<section id="bibliographie">
+<h2>Bibliographie<a class="headerlink" href="#bibliographie" title="Lien vers cette rubrique">#</a></h2>
+<p>Voici quelques liens vers des cours de géométrie affine :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://webusers.imj-prg.fr/~julien.marche/LM323/CoursLM323.pdf">https://webusers.imj-prg.fr/~julien.marche/LM323/CoursLM323.pdf</a>,</p></li>
+<li><p><a class="reference external" href="https://licence-math.univ-lyon1.fr/lib/exe/fetch.php?media=pmi:prepisometrie.pdf">https://licence-math.univ-lyon1.fr/lib/exe/fetch.php?media=pmi:prepisometrie.pdf</a>,</p></li>
+<li><p><a class="reference external" href="https://www.imo.universite-paris-saclay.fr/~daniel.perrin/CAPES/geometrie/GeometrieEuclidienne.pdf">https://www.imo.universite-paris-saclay.fr/~daniel.perrin/CAPES/geometrie/GeometrieEuclidienne.pdf</a>,</p></li>
+<li></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -627,18 +680,20 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Un peu de géométrie pour se repérer</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-point">Le point</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vecteur">Vecteur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#droite">Droite</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vecteur">Vecteur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#produit-scalaire">Produit scalaire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance">Distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#droite">Droite</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-segment">Un segment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cercle">Cercle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations">Transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translations">Translations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotations">Rotations</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cercle">Cercle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>
