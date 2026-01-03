@@ -56,28 +56,32 @@ class World:
         #     return collision
         # return None
 
-    def draw(self, ax: Any, with_edges=True):
-        ax.set_xlim([-10, self.limit_x+10])
-        ax.set_ylim([-10, self.limit_y+10])
-        # x_values = []
-        # y_values = []
-        for item in self.items:
-            item.draw(ax, limit_inf_x=0, limit_sup_x=self.limit_x, limit_inf_y=0, limit_sup_y=self.limit_y)
-            # x_values.append(point.x)
-            # y_values.append(point.y)
-        # plt.scatter(x_values, y_values)
-        if with_edges:
-            for edge in [LineByTwoPoints(Point(0, 0), Point(0, self.limit_y)),
-                         LineByTwoPoints(Point(0, self.limit_y), Point(self.limit_x, self.limit_y)),
-                         LineByTwoPoints(Point(self.limit_x, self.limit_y), Point(self.limit_x, 0)),
-                         LineByTwoPoints(Point(self.limit_x, 0), Point(0, 0)),
-                         ]:
-                edge.draw(ax, limit_inf_x=0, limit_sup_x=self.limit_x, limit_inf_y=0, limit_sup_y=self.limit_y)
+    def draw(self, ax: Any, with_edges=True, projection="cartesian"):
+        if projection not in ["cartesian", "polar"]:
+            raise ValueError("Invalid projection type. Supported projections are 'cartesian' and 'polar'.")
 
-        # plt.xlabel("X")
-        # plt.ylabel("Y")
-        # plt.title("Plot")
-        # plt.show()
+        if projection == "cartesian":
+            ax.set_xlim([-10, self.limit_x+10])
+            ax.set_ylim([-10, self.limit_y+10])
+            # x_values = []
+            # y_values = []
+            for item in self.items:
+                item.draw(ax, limit_inf_x=0, limit_sup_x=self.limit_x, limit_inf_y=0, limit_sup_y=self.limit_y)
+                # x_values.append(point.x)
+                # y_values.append(point.y)
+            # plt.scatter(x_values, y_values)
+            if with_edges:
+                for edge in [LineByTwoPoints(Point(0, 0), Point(0, self.limit_y)),
+                             LineByTwoPoints(Point(0, self.limit_y), Point(self.limit_x, self.limit_y)),
+                             LineByTwoPoints(Point(self.limit_x, self.limit_y), Point(self.limit_x, 0)),
+                             LineByTwoPoints(Point(self.limit_x, 0), Point(0, 0)),
+                             ]:
+                    edge.draw(ax, limit_inf_x=0, limit_sup_x=self.limit_x, limit_inf_y=0, limit_sup_y=self.limit_y)
+
+            # plt.xlabel("X")
+            # plt.ylabel("Y")
+            # plt.title("Plot")
+            # plt.show()
 
 
 

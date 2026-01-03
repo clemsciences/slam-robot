@@ -74,7 +74,7 @@ class Cluster:
             circle_position = pos
             dist_sum = 0
             for point in self.points:
-                dist_sum += (point.distance(circle_position) - radius) ** 2
+                dist_sum += (np.sqrt(np.power(point.x - circle_position[0], 2) + np.power(point.y - circle_position[1], 2)) - radius) ** 2
             return dist_sum, 0
         initial_guess = self.mean.to_array()
         solution = root(objective_function, initial_guess, method="lm")

@@ -40,7 +40,7 @@ Au fur et à mesure, le robot acquerrera de nouvelles capacités, ainsi que de n
 
 
 :::{note}
-C'est une note.
+Ce travail est une forme revue et augmenté du travail entrepris il y a 7 ans : [lidar-notebooks](https://github.com/clemsciences/lidar-notebooks/tree/master).
 :::
 
 SLAM

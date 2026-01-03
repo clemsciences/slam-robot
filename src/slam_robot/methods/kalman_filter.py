@@ -12,6 +12,10 @@ from numpy.linalg import inv
 __author__ = ["https://github.com/hermes-project/lidar", ]
 
 
+# class KalmanFilter:
+
+
+
 def ekf(te, y_k, x_kalm_prec, p_kalm_prec, dt, sigma_q, sigma_angle, sigma_distance):
     """
     Extended Kalman Filter:
