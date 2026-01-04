@@ -389,6 +389,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations">Transformations</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translations">Translations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotations">Rotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation-rigide">Transformation rigide</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
@@ -596,11 +597,27 @@ x_{B} - x_{A} \\
 </section>
 <section id="transformations">
 <h2>Transformations<a class="headerlink" href="#transformations" title="Lien vers cette rubrique">#</a></h2>
+<p>On reste dans l’espace affine <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> de direction l’espace vectoriel E défini au début du chapitre.</p>
 <section id="translations">
 <h3>Translations<a class="headerlink" href="#translations" title="Lien vers cette rubrique">#</a></h3>
+<p>On choisit un vecteur <span class="math notranslate nohighlight">\(u \in E\)</span> non nul.</p>
+<p>On définit une translation dans E de vecteur u par l’application linéaire qui à un vecteur <span class="math notranslate nohighlight">\(a\)</span> associe un unique vecteur <span class="math notranslate nohighlight">\(b\)</span> tel que <span class="math notranslate nohighlight">\(a + u = b\)</span>. On la note <span class="math notranslate nohighlight">\(t_u^E\)</span>.</p>
+<p>On définit une translation dans <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> par l’application linéaire qui à un point <span class="math notranslate nohighlight">\(A \in \mathcal{E}\)</span> associe un unique autre point <span class="math notranslate nohighlight">\(B \in \mathcal{E}\)</span> tel que <span class="math notranslate nohighlight">\(\overrightarrow{AB} = u\)</span> ou bien A + u = B. On la note <span class="math notranslate nohighlight">\(t_u^{\mathcal{E}}\)</span>.</p>
+<p>Dans la pratique, on notera les deux translations <span class="math notranslate nohighlight">\(t_u\)</span> et le contexte nous indiquera laquelle des translations est utilisée.</p>
 </section>
 <section id="rotations">
 <h3>Rotations<a class="headerlink" href="#rotations" title="Lien vers cette rubrique">#</a></h3>
+<p>On choisit un angle <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}\)</span> non nul. On se restreint à E de dimension 2.</p>
+<p>On définit une rotation dans E d’angle <span class="math notranslate nohighlight">\(\theta\)</span> par l’application linéaire qui à un vecteur <span class="math notranslate nohighlight">\(a\)</span> associe un unique vecteur <span class="math notranslate nohighlight">\(b\)</span> tel que <span class="math notranslate nohighlight">\(a = R(\theta)b\)</span>. On note <span class="math notranslate nohighlight">\(R(\theta)\)</span> la matrice de rotation d’angle <span class="math notranslate nohighlight">\(\theta\)</span>. <span class="math notranslate nohighlight">\(R(\theta) = \begin{pmatrix}
+  cos(\theta) &amp; -sin(\theta) \\ 
+  sin(\theta) &amp; cos(\theta)
+\end{pmatrix}\)</span>.</p>
+<p>On définit une rotation dans <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> d’angle <span class="math notranslate nohighlight">\(\theta\)</span> et de centre de rotation <span class="math notranslate nohighlight">\(\Omega \in \mathcal{E}\)</span> par l’application linéaire qui a un point <span class="math notranslate nohighlight">\(A \in \mathcal{E}\)</span> associe un point <span class="math notranslate nohighlight">\(B \in \mathcal{E}\)</span> tel que <span class="math notranslate nohighlight">\(\overrightarrow{\Omega B} = R(\theta) \overrightarrow{\Omega A}\)</span>.</p>
+</section>
+<section id="transformation-rigide">
+<h3>Transformation rigide<a class="headerlink" href="#transformation-rigide" title="Lien vers cette rubrique">#</a></h3>
+<p>On définit une transformation rigide par la composée d’une rotation suivi d’une translation.</p>
+<p>Nous verrons dans le troisième chapitre que c’est ce genre de transformation qui régit les déplacement du robot.</p>
 </section>
 </section>
 <section id="bibliographie">
@@ -610,7 +627,7 @@ x_{B} - x_{A} \\
 <li><p><a class="reference external" href="https://webusers.imj-prg.fr/~julien.marche/LM323/CoursLM323.pdf">https://webusers.imj-prg.fr/~julien.marche/LM323/CoursLM323.pdf</a>,</p></li>
 <li><p><a class="reference external" href="https://licence-math.univ-lyon1.fr/lib/exe/fetch.php?media=pmi:prepisometrie.pdf">https://licence-math.univ-lyon1.fr/lib/exe/fetch.php?media=pmi:prepisometrie.pdf</a>,</p></li>
 <li><p><a class="reference external" href="https://www.imo.universite-paris-saclay.fr/~daniel.perrin/CAPES/geometrie/GeometrieEuclidienne.pdf">https://www.imo.universite-paris-saclay.fr/~daniel.perrin/CAPES/geometrie/GeometrieEuclidienne.pdf</a>,</p></li>
-<li></li>
+<li><p><a class="reference external" href="https://motion.cs.illinois.edu/RoboticSystems/CoordinateTransformations.html">https://motion.cs.illinois.edu/RoboticSystems/CoordinateTransformations.html</a></p></li>
 </ul>
 </section>
 </section>
@@ -690,6 +707,7 @@ x_{B} - x_{A} \\
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations">Transformations</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translations">Translations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotations">Rotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation-rigide">Transformation rigide</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>

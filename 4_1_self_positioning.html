@@ -168,7 +168,6 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_geometry.html">Un peu de géométrie pour se repérer</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="2_environment.html">Construire l’environnement du robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3_robot_1.html">Le robot agit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4_lidar.html">Le lidar pour mesurer et se situer</a></li>
@@ -381,7 +380,11 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#balise">Balise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrouver-la-position-du-robot">Retrouver la position du robot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrouver-la-position-du-robot-avec-une-seule-balise">Retrouver la position du robot avec une seule balise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrouver-la-position-du-robot-avec-deux-balises">Retrouver la position du robot avec deux balises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
 </ul>
             </nav>
@@ -468,7 +471,7 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x791673339f90&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x74ff7511aa90&gt;
 </pre></div>
 </div>
 <img alt="_images/7b0989ba59a014c902e2ca21975aa9a8bf19fdd01dca73f5e12a1a4952adcb0f.png" src="_images/7b0989ba59a014c902e2ca21975aa9a8bf19fdd01dca73f5e12a1a4952adcb0f.png" />
@@ -522,10 +525,10 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x791661fc6010&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x74ff7517d510&gt;
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7916709bf1d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x74ff751ac3d0&gt;
 </pre></div>
 </div>
 <img alt="_images/055e3b8a398a1ca06a594a0679eab81874918e27c72f4f9e1b09c191144623fe.png" src="_images/055e3b8a398a1ca06a594a0679eab81874918e27c72f4f9e1b09c191144623fe.png" />
@@ -577,10 +580,10 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x79165232b250&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x74ff751b0190&gt;
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x791654d0ecd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x74ff72726610&gt;
 </pre></div>
 </div>
 <img alt="_images/c5ed8f779e11a96b596f7d28b845e2c4e354cd5f661506314ce584aef3679f83.png" src="_images/c5ed8f779e11a96b596f7d28b845e2c4e354cd5f661506314ce584aef3679f83.png" />
@@ -651,7 +654,7 @@ L’idée est de trouver le point qui minimise sa distance à tous les autres po
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x79164f98c790&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x74ff751d6b10&gt;
 </pre></div>
 </div>
 <img alt="_images/dee822ddb7473026fd1bdb469aa30e77d2c2dd836bedbaf7ad5bf4122da59a9f.png" src="_images/dee822ddb7473026fd1bdb469aa30e77d2c2dd836bedbaf7ad5bf4122da59a9f.png" />
@@ -715,7 +718,7 @@ L’idée est de trouver le point qui minimise sa distance à tous les autres po
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x79164f919110&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;slam_robot.models.action.Sense object at 0x74ff727cd510&gt;
 </pre></div>
 </div>
 <img alt="_images/dee822ddb7473026fd1bdb469aa30e77d2c2dd836bedbaf7ad5bf4122da59a9f.png" src="_images/dee822ddb7473026fd1bdb469aa30e77d2c2dd836bedbaf7ad5bf4122da59a9f.png" />
@@ -725,8 +728,8 @@ L’idée est de trouver le point qui minimise sa distance à tous les autres po
 <p>Plus sérieusement, on peut contrôler la précision du résultat.</p>
 <p>Nous avons donc retrouvé la position du cercle. Nous avons récupéré une rangée de points à partir d’un lidar, dont nous avons vu le fonctionnement, et nous sommes parvenu à retrouver la position relative d’une balise dont la position absolue était connue, de sorte que la position absolue du robot peut être retrouvée.</p>
 </section>
-<section id="retrouver-la-position-du-robot">
-<h2>Retrouver la position du robot<a class="headerlink" href="#retrouver-la-position-du-robot" title="Lien vers cette rubrique">#</a></h2>
+<section id="retrouver-la-position-du-robot-avec-une-seule-balise">
+<h2>Retrouver la position du robot avec une seule balise<a class="headerlink" href="#retrouver-la-position-du-robot-avec-une-seule-balise" title="Lien vers cette rubrique">#</a></h2>
 <p>On suppose l’existence d’un repaère cartésien extérieur. Les grandeurs avec un exposant e sont ceux données dans ce repère extérieur.</p>
 <p>Nous confondons la position du robot et son orientation avec ceux du lidar. Autrement dit, <span class="math notranslate nohighlight">\((x_l^e, y_l^e, \theta_R^e) = (x_R^e, y_R^e, \theta_R^e)\)</span>.</p>
 <p>Supposons que la position de la balise soit <span class="math notranslate nohighlight">\((x_b^e, y_b^e)\)</span> dans un repère cartésien extérieur. Grâce au lidar, nous avons aussi la position de la balise dans son repère <span class="math notranslate nohighlight">\((x_b^l, y_b^l)\)</span>.</p>
@@ -791,6 +794,14 @@ L’idée est de trouver le point qui minimise sa distance à tous les autres po
 <img alt="_images/4fad5a2bcc5540331199044f3b6e8e9e656da192134964d6b6f8639af2254a87.png" src="_images/4fad5a2bcc5540331199044f3b6e8e9e656da192134964d6b6f8639af2254a87.png" />
 </div>
 </div>
+</section>
+<section id="retrouver-la-position-du-robot-avec-deux-balises">
+<h2>Retrouver la position du robot avec deux balises<a class="headerlink" href="#retrouver-la-position-du-robot-avec-deux-balises" title="Lien vers cette rubrique">#</a></h2>
+<section id="id1">
+<h3><a class="headerlink" href="#id1" title="Lien vers cette rubrique">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\]</div>
+</section>
 </section>
 <section id="bibliographie">
 <h2>Bibliographie<a class="headerlink" href="#bibliographie" title="Lien vers cette rubrique">#</a></h2>
@@ -868,7 +879,11 @@ L’idée est de trouver le point qui minimise sa distance à tous les autres po
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#balise">Balise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrouver-la-position-du-robot">Retrouver la position du robot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrouver-la-position-du-robot-avec-une-seule-balise">Retrouver la position du robot avec une seule balise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrouver-la-position-du-robot-avec-deux-balises">Retrouver la position du robot avec deux balises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliographie">Bibliographie</a></li>
 </ul>
   </nav></div>
